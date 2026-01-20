@@ -49,24 +49,38 @@
 $active_group = 'default';
 $query_builder = TRUE;
 
-// Fallback to 'postgre' if DB_DRIVER environment variable is not set
-$db['default']['dbdriver'] = getenv('DB_DRIVER') ?: 'postgre';
-// Fallback to 'localhost' if DB_HOST environment variable is not set
-$db['default']['hostname'] = getenv('DB_HOST') ?: 'localhost';
-// Fallback to empty string if DB_USERNAME environment variable is not set
-$db['default']['username'] = getenv('DB_USERNAME') ?: '';
-// Fallback to empty string if DB_PASSWORD environment variable is not set
-$db['default']['password'] = getenv('DB_PASSWORD') ?: '';
-// Fallback to empty string if DB_NAME environment variable is not set
-$db['default']['database'] = getenv('DB_NAME') ?: '';
-// Fallback to '5432' if DB_PORT environment variable is not set
-$db['default']['port'] = getenv('DB_PORT') ?: '5432';
+// Check if DATABASE_URL is provided (Railway, Heroku, etc.)
+$database_url = getenv('DATABASE_URL');
+if ($database_url) {
+	// Parse DATABASE_URL: postgres://username:password@hostname:port/database
+	$url = parse_url($database_url);
+	$db['default']['dbdriver'] = 'postgre';
+	$db['default']['hostname'] = isset($url['host']) ? $url['host'] : 'localhost';
+	$db['default']['username'] = isset($url['user']) ? $url['user'] : '';
+	$db['default']['password'] = isset($url['pass']) ? $url['pass'] : '';
+	$db['default']['database'] = isset($url['path']) ? ltrim($url['path'], '/') : '';
+	$db['default']['port'] = isset($url['port']) ? $url['port'] : '5432';
+} else {
+	// Fallback to 'postgre' if DB_DRIVER environment variable is not set
+	$db['default']['dbdriver'] = getenv('DB_DRIVER') ?: 'postgre';
+	// Fallback to 'localhost' if DB_HOST environment variable is not set
+	$db['default']['hostname'] = getenv('DB_HOST') ?: 'localhost';
+	// Fallback to empty string if DB_USERNAME environment variable is not set
+	$db['default']['username'] = getenv('DB_USERNAME') ?: '';
+	// Fallback to empty string if DB_PASSWORD environment variable is not set
+	$db['default']['password'] = getenv('DB_PASSWORD') ?: '';
+	// Fallback to empty string if DB_NAME environment variable is not set
+	$db['default']['database'] = getenv('DB_NAME') ?: '';
+	// Fallback to '5432' if DB_PORT environment variable is not set
+	$db['default']['port'] = getenv('DB_PORT') ?: '5432';
+}
 $db['default']['dbprefix'] = 'ea_';
 $db['default']['pconnect'] = FALSE;
 $db['default']['db_debug'] = TRUE;
 $db['default']['cache_on'] = FALSE;
 $db['default']['cachedir'] = '';
-$db['default']['char_set'] = 'utf8mb4';
+// PostgreSQL uses 'utf8' encoding (not MySQL's 'utf8mb4')
+$db['default']['char_set'] = 'utf8';
 $db['default']['dbcollat'] = 'utf8mb4_unicode_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
