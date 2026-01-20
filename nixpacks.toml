@@ -1,0 +1,16 @@
+[phases.setup]
+nixPkgs = ["php", "php82Extensions.composer"]
+
+[phases.install]
+cmds = [
+  "composer install --no-dev --optimize-autoloader"
+]
+
+[phases.build]
+cmds = [
+  "sed -i \"s|DB_HOST = '.*'|DB_HOST = '${DB_HOST}'|\" config.php",
+  "sed -i \"s|DB_NAME = '.*'|DB_NAME = '${DB_NAME}'|\" config.php",
+  "sed -i \"s|DB_USERNAME = '.*'|DB_USERNAME = '${DB_USERNAME}'|\" config.php",
+  "sed -i \"s|DB_PASSWORD = '.*'|DB_PASSWORD = '${DB_PASSWORD}'|\" config.php",
+  "sed -i \"s|BASE_URL = '.*'|BASE_URL = '${BASE_URL}'|\" config.php"
+]
