@@ -49,11 +49,18 @@
 $active_group = 'default';
 $query_builder = TRUE;
 
-$db['default']['hostname'] = Config::DB_HOST;
-$db['default']['username'] = Config::DB_USERNAME;
-$db['default']['password'] = Config::DB_PASSWORD;
-$db['default']['database'] = Config::DB_NAME;
-$db['default']['dbdriver'] = 'mysqli';
+// Fallback to 'postgre' if DB_DRIVER environment variable is not set
+$db['default']['dbdriver'] = getenv('DB_DRIVER') ?: 'postgre';
+// Fallback to 'localhost' if DB_HOST environment variable is not set
+$db['default']['hostname'] = getenv('DB_HOST') ?: 'localhost';
+// Fallback to empty string if DB_USERNAME environment variable is not set
+$db['default']['username'] = getenv('DB_USERNAME') ?: '';
+// Fallback to empty string if DB_PASSWORD environment variable is not set
+$db['default']['password'] = getenv('DB_PASSWORD') ?: '';
+// Fallback to empty string if DB_NAME environment variable is not set
+$db['default']['database'] = getenv('DB_NAME') ?: '';
+// Fallback to '5432' if DB_PORT environment variable is not set
+$db['default']['port'] = getenv('DB_PORT') ?: '5432';
 $db['default']['dbprefix'] = 'ea_';
 $db['default']['pconnect'] = FALSE;
 $db['default']['db_debug'] = TRUE;
