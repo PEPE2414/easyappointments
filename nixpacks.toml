@@ -8,9 +8,9 @@ cmds = [
 
 [phases.build]
 cmds = [
-  "sed -i \"s|DB_HOST = '.*'|DB_HOST = '${DB_HOST}'|\" config.php",
-  "sed -i \"s|DB_NAME = '.*'|DB_NAME = '${DB_NAME}'|\" config.php",
-  "sed -i \"s|DB_USERNAME = '.*'|DB_USERNAME = '${DB_USERNAME}'|\" config.php",
-  "sed -i \"s|DB_PASSWORD = '.*'|DB_PASSWORD = '${DB_PASSWORD}'|\" config.php",
-  "sed -i \"s|BASE_URL = '.*'|BASE_URL = '${BASE_URL}'|\" config.php"
+  "sed -i 's/BASE_URL_PLACEHOLDER/${BASE_URL}/g' config.php",
+  "sed -i 's/DB_HOST_PLACEHOLDER/${DB_HOST}/g' config.php",
+  "sed -i 's/DB_NAME_PLACEHOLDER/${DB_NAME}/g' config.php",
+  "sed -i 's/DB_USERNAME_PLACEHOLDER/${DB_USERNAME}/g' config.php",
+  "sed -i 's/DB_PASSWORD_PLACEHOLDER/${DB_PASSWORD}/g' config.php"
 ]
