@@ -61,8 +61,8 @@ if ($database_url) {
 	$db['default']['database'] = isset($url['path']) ? ltrim($url['path'], '/') : '';
 	$db['default']['port'] = isset($url['port']) ? $url['port'] : '5432';
 } else {
-	// Fallback to 'postgre' if DB_DRIVER environment variable is not set
-	$db['default']['dbdriver'] = getenv('DB_DRIVER') ?: 'postgre';
+	// Fallback to 'mysqli' if DB_DRIVER environment variable is not set
+	$db['default']['dbdriver'] = getenv('DB_DRIVER') ?: 'mysqli';
 	// Fallback to 'localhost' if DB_HOST environment variable is not set
 	$db['default']['hostname'] = getenv('DB_HOST') ?: 'localhost';
 	// Fallback to empty string if DB_USERNAME environment variable is not set
@@ -71,8 +71,8 @@ if ($database_url) {
 	$db['default']['password'] = getenv('DB_PASSWORD') ?: '';
 	// Fallback to empty string if DB_NAME environment variable is not set
 	$db['default']['database'] = getenv('DB_NAME') ?: '';
-	// Fallback to '5432' if DB_PORT environment variable is not set
-	$db['default']['port'] = getenv('DB_PORT') ?: '5432';
+	// Fallback to '3306' if DB_PORT environment variable is not set
+	$db['default']['port'] = getenv('DB_PORT') ?: '3306';
 }
 $db['default']['dbprefix'] = 'ea_';
 $db['default']['pconnect'] = FALSE;
